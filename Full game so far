@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <head>
 <title>Game</title>
@@ -20,7 +21,7 @@ d2map<d2edge;
  }
 }
 var d1=500, d2=500, action=0, start=0, num=0, mnhp2=0, mnhp3=0, yhc=75, end=0, hpns=1, hpmax=30, mng=0, dmg2=4, dmg3=2, mndmg2=0, mndmg3=0, exp=0, mn=0, mnh=0, nu, gold=0, explvl=125, lvl=1;
-var shortsword1=1;
+var shortsword1=0;
 var shortsword="shortsword,";
 var dagger1=1;
 var dagger="dagger";
@@ -36,14 +37,18 @@ var move=north+east+south+west;
 var attack='<p/><button type = "button" class = "button" onclick = " battle();"/>Attack</button>';
 var enter='<p/><button type="button" onclick="inshops();">Enter shop,'+button2;
 var backshops='<p/><button type="button" onclick="inshops();">Back</button>';
-var buysword1=button1+"++sword1 buyitem();'>shortsword, 2D2, 30 gold,"+button2;
+var buysword1=button1+"if (gold>=60) {++shortsword1; gold-=60; alert( \"\ You buy one shortsword \"\ )} else {alert( \"\ You do not have enough gold \"\ )};'>shortsword: 60 gold, up to 7 damage"+button2;
 
 // boss tower
-var btl;
-var btl1="You stand on the bottom level of the Arch Mage Merlin's tower.<p/>You can see a set of spiral stone stairs leading up to the next floor.<p/><input type='button' value='climb the stairs' onclick='btl=2, changeText();/>";
-var btl2="You are standing on the second floor of the arch mage Merlin's tower.<p/>Shelves line the walls with strange skeletons upon them.<p/>A door leads east.<p/><input type='button' id='btl2r1' value='East' onclick='btl2r=2, changeText();'/>";
+var btl, btr=1;
+var btl1="You stand on the bottom level of the Arch Mage Merlin's tower.<p/>You can see a set of spiral stone stairs leading up to the next floor.<p/><input type='button' value='climb the stairs' onclick='btl=2; btr=1; tower();/>";
+var btl2r1="You are standing on the second floor of the arch mage Merlin's tower.<p/>Shelves line the walls with strange skeletons upon them.<p/>A door leads east.<p/><input type='button' value='East' onclick='btr=2; tower();'/>";
 var btd1=Math.floor((Math.random()*50)+476), btd2=Math.floor((Math.random()*50)+476);
 f[btd1][btd2]=btl1;
+
+function tower(){
+if (btl==2&&btr==1) {document . getElementById ( 'screen' ). innerHTML = btl2r1;  };
+};
 
 // Places
 var city="You stand in a small city";
@@ -177,6 +182,7 @@ setCookie("exp", exp, 30);
 setCookie("lvl", lvl, 30);
 setCookie("hpmax", hpmax, 30);
 setCookie("hpns", hpns, 30);
+setCookie("explvl", explvl, 30);
 };
 tim=79, tod2="";
 function gameTime(){
@@ -221,6 +227,7 @@ exp=getCookie("exp");
 hpmax=getCookie("hpmax");
 lvl=getCookie("lvl");
 hpns=getCookie("hpns");
+explvl=getCookie("explvl")
 d1min=getCookie("d1min");
 d1max=getCookie("d1max");
 d2min=getCookie("d2min");
@@ -292,7 +299,7 @@ if (d2==0) {++d2;};
 if (d1==1000) {--d1;};
 if (d2==1000) {--d2;};
 
-if (exp>=explvl) {exp=exp-explvl; explvl=explvl*Math.floor(1.75); hpmax=hpmax+10; ++lvl; };
+if (exp>=explvl) {exp=exp-explvl; explvl=Math.floor(explvl*1.75); hpmax=number(explvl)+10; ++lvl; alert("You have gained a level")};
   mng=Math.floor((Math.random()*15)-13);
 if (f[d1][d2]==(city||roads1||roads2||roads3)) {mng==0;};
 
