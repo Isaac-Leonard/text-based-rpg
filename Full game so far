@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<head>
+<title>Game</title>
+<style> .button { background-color : #4CAF50 ; border : none ; color : white ; padding : 15px 32px ; text-align : center ; text-decoration : none ; display : inline-block ; font-size : 16px ; margin : 4px 2px  ; cursor : pointer ; }  </style>
+</head>
+<body>  
+<script type = "text/javascript" >
+var hp=30;
+ var d1edge=1001, d2edge=1001;
+var f = new Array();
+
+for (d1map=0;
+d1map<d1edge;
+++d1map) {
+ f[d1map]=new Array();
+ for (d2map=0;
+d2map<d2edge;
+++d2map) {
+  f[d1map][d2map]=0;
+ }
+}
+var d1=500, d2=500, action=0, start=0, num=0, mnhp2=0, mnhp3=0, yhc=75, end=0, hpns=1, hpmax=30, mng=0, dmg2=4, dmg3=2, mndmg2=0, mndmg3=0, exp=0, mn=0, mnh=0, nu, gold=0, explvl=125, lvl=1;
+var shortsword1=1;
+var shortsword="shortsword,";
+var dagger1=1;
+var dagger="dagger";
+var button1="<button type='button' onclick='";
+var button2="</button>";
+var heal="<input type ='button' value ='Drink a potion' onclick='hp=hp+10, --hpns, changeText();'/>";
+// general movement
+var north='<input type = "button" value = "North" id = "b1" onclick = " ++d1, changeText (); " /><p/>';
+var east='<input type = "button" value = "East" id = "b2" onclick = " ++d2, changeText (); " /><p/>';
+var west='<input type = "button" value ="West" id = "b4" onclick = " --d2, changeText (); " /><p/>';
+var south='<input type = "button" value = "South" id = "b3" onclick = " --d1, changeText (); " /><p/>';
+var move=north+east+south+west;
+var attack='<p/><button type = "button" class = "button" onclick = " battle();"/>Attack</button>';
+var enter='<p/><button type="button" onclick="inshops();">Enter shop,'+button2;
+var backshops='<p/><button type="button" onclick="inshops();">Back</button>';
+var buysword1=button1+"++sword1 buyitem();'>shortsword, 2D2, 30 gold,"+button2;
+
+// boss tower
+var btl;
+var btl1="You stand on the bottom level of the Arch Mage Merlin's tower.<p/>You can see a set of spiral stone stairs leading up to the next floor.<p/><input type='button' value='climb the stairs' onclick='btl=2, changeText();/>";
+var btl2="You are standing on the second floor of the arch mage Merlin's tower.<p/>Shelves line the walls with strange skeletons upon them.<p/>A door leads east.<p/><input type='button' id='btl2r1' value='East' onclick='btl2r=2, changeText();'/>";
+var btd1=Math.floor((Math.random()*50)+476), btd2=Math.floor((Math.random()*50)+476);
+f[btd1][btd2]=btl1;
+
+// Places
+var city="You stand in a small city";
+var forest1='You stand in a forest<img src="http://www.bigfoto.com/themes/nature/forest/green-trees.jpg" height="100" width="100"><p/>';
+var mountains1="You stand on a mountain<p/>";
+var plains1='You stand on a field of green grass<img src="https://static.pexels.com/photos/128637/pexels-photo-128637.jpeg" alt="green grass" height="40" width="100"><p/>';
+var hills1 ="You stand on a small hill";
+var shops1="You stand before a well set up blacksmith's workshop,"+enter;
+
+//inside shops
+
+var inshops1='You stand in a small but well used smithy.<p/>The owner, a short, thick armed dwarf with a white bierd, pauses her work to introduce herself as "Handrerlig Graybraid" and to ask about what she may do to help you.<p/><button type="button" onclick ="/*trainsmith();*/">Ask to be trained in the ways of metal,</button><p/><button type="button" onclick="/*forge();*/">work in shop</button><p/><button type ="button" onclick="buyshops();">Buy items</button><p/><button type="button" onclick="changeText();">Leave workshop</button><p/>';
+// roads
+var roads1="You stand on a road leading east and west";
+var roads2="You stand on a road leading north and south";
+var roads3="You stand in the centre of a crossroads";
+
+
+// Enermy names
+var mn1="large rat";
+var mn2='troll <img src="http://www.santharia.com/pictures/isilhir/isilhir_pics/forest_trolls.jpg">';
+var mn3='small goblin <img src="http://imgs.sfgate.com/blogs/images/sfgate/culture/2009/12/17/kallikantzaros129x250.jpg">';
+var mn4=' Dark elf <img src="http://media.wizards.com/2014/images/dnd/newtodnd/Drow_1Ev2.jpg">';
+
+// start attack phrases
+var at1="You are attacked by a ";
+
+// road generation rules
+
+var r1=Math.floor(Math.random()*1000), r2=Math.floor(Math.random()*1000), r3=Math.floor(Math.random()*1000), r4=Math.floor(Math.random()*1000), r5=Math.floor(Math.random()*1000), r6=Math.floor(Math.random()*1000), r7=Math.floor(Math.random()*1000), r8=Math.floor(Math.random()*1000), r9=Math.floor(Math.random()*1000), r10=Math.floor(Math.random()*1000), r11=Math.floor(Math.random()*1000), r12=Math.floor(Math.random()*1000), r13=Math.floor(Math.random()*1000), r14=Math.floor(Math.random()*1000), r15=Math.floor(Math.random()*1000), r16=Math.floor(Math.random()*1000);
+function roads(){
+  f[r1][d2]=roads1;
+  f[d1][r2]=roads2;
+  f[r3][d2]=roads1;
+  f[d1][r4]=roads2;
+  f[r5][d2]=roads1;
+  f[d1][r6]=roads2;
+  f[r7][d2]=roads2;
+  f[d1][r8]=roads1;
+  f[r9][d2]=roads2;
+  f[d1][r10]=roads1;
+  f[r11][d2]=roads2;
+  f[d1][r12]=roads1;
+  f[r13][d2]=roads2;
+  f[d1][r14]=roads1;
+  f[r15][d2]=roads2;
+  f[d1][r16]=roads2;
+
+  f[r1][r2]=roads3;
+  f[r1][r4]=roads3;
+  f[r1][r6]=roads3;
+  f[r1][r8]=roads3;
+  f[r1][r10]=roads3;
+  f[r1][r12]=roads3;
+  f[r1][r14]=roads3;
+  f[r1][r16]=roads3;
+
+  f[r3][r2]=roads3;
+  f[r3][r4]=roads3;
+  f[r3][r6]=roads3;
+  f[r3][r8]=roads3;
+  f[r3][r10]=roads3;
+  f[r3][r12]=roads3;
+  f[r3][r14]=roads3;
+  f[r3][r16]=roads3;
+
+  f[r5][r2]=roads3;
+  f[r5][r4]=roads3;
+  f[r5][r6]=roads3;
+  f[r5][r8]=roads3;
+  f[r5][r10]=roads3;
+  f[r5][r12]=roads3;
+  f[r5][r14]=roads3;
+  f[r5][r16]=roads3;
+
+  f[r7][r2]=roads3;
+  f[r7][r4]=roads3;
+  f[r7][r6]=roads3;
+  f[r7][r8]=roads3;
+  f[r7][r10]=roads3;
+  f[r7][r12]=roads3;
+  f[r7][r14]=roads3;
+ f[r7][r16]=roads3; 
+
+  f[r9][r2]=roads3;
+  f[r9][r4]=roads3;
+  f[r9][r6]=roads3;
+  f[r9][r8]=roads3;
+  f[r9][r10]=roads3;
+  f[r9][r12]=roads3;
+  f[r9][r14]=roads3;
+  f[r9][r16]=roads3;
+
+  f[r11][r2]=roads3;
+  f[r11][r4]=roads3;
+  f[r11][r6]=roads3;
+  f[r11][r8]=roads3;
+  f[r11][r10]=roads3;
+  f[r11][r12]=roads3;
+  f[r11][r14]=roads3;
+  f[r11][r16]=roads3;
+
+  f[r13][r2]=roads3;
+  f[r13][r4]=roads3;
+  f[r13][r6]=roads3;
+  f[r13][r8]=roads3;
+  f[r13][r10]=roads3;
+  f[r13][r12]=roads3;
+  f[r13][r14]=roads3;
+  f[r13][r16]=roads3;
+
+  f[r15][r2]=roads3;
+  f[r15][r4]=roads3;
+  f[r15][r6]=roads3;
+  f[r15][r8]=roads3;
+  f[r15][r10]=roads3;
+  f[r15][r12]=roads3;
+  f[r15][r14]=roads3;
+  f[r15][r16]=roads3;
+
+ };
+
+d1=500;
+d2=500;
+f[501][500]=shops1;
+function tick(){
+timeplayed();
+gameTime();
+setCookie("hp", hp, 30);
+setCookie("exp", exp, 30);
+setCookie("lvl", lvl, 30);
+setCookie("hpmax", hpmax, 30);
+setCookie("hpns", hpns, 30);
+};
+tim=79, tod2="";
+function gameTime(){
+++tim;
+if (tim>180) {tim=0;};
+if (tim==0) { tod2="Midnight, the moon is directly overhead"; };
+if (tim==20) {tod2="Early morning, the moon is shrinking to the west";};
+if (tim==40) {tod2="dawn, the sun is rising in the east";};
+if (tim==60) {tod2="Morning, the sun is climbing in the eastern sky";};
+if (tim==90) {tod2="Noon, the sun is shining from above";};
+if (tim==110) {tod2="Afternoon, the sun is falling in the west";};
+if (tim==140) {tod2="Evening, the sun is setting in the west";};
+if (tim==160) {tod2="Night, the moon has risen in the east";}; 
+ document . getElementById ( 'sun' ). innerHTML =tod2;
+};
+
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname+"="+cvalue+"; "+expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+     ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+var d1min=500, d1max=500, d2mon=500, d2nax=500;
+function checkCookie() {
+    hp=getCookie("hp");
+exp=getCookie("exp");
+hpmax=getCookie("hpmax");
+lvl=getCookie("lvl");
+hpns=getCookie("hpns");
+d1min=getCookie("d1min");
+d1max=getCookie("d1max");
+d2min=getCookie("d2min");
+d2max=getCookie("d2max");
+for(d1c=d1min;
+d1c<d1max;
+d1c++){
+for(d2c=d2min;
+d2c<d2max;
+d2c++){
+f[d1c][d2c]=getCookie("f"+d1c+d2c);
+}}
+};
+
+
+function generat(){
+for(d1g=0;
+d1g<1000;
+++d1g)
+{for
+(d2g=0;
+d2g<1000;
+++d2g)
+{ if (f[d1g][d2g]==shops1) { f[d2g+1][d2g]=plains1; f[d2g-1][d2g]=plains1;  f[d2g][d2g+1]=plains1;  f[d2g][d2g-1]=plains1;  f[d2g-1][d2g-1]=plains1;  f[d2g+1][d2g-1]=plains1;  f[d2g+1][d2g+1]=plains1; f[d2g-1][d2g+1]=plains1; };}}};
+var counts=0, countm=0;
+function timeplayed(){++counts;
+if ((counts-60)==0) {++countm; counts=counts-60;};
+document . getElementById ( 'timep' ). innerHTML ="Time played: "+countm+" minutes, "+counts+" seconds"; 
+};
+
+var d1min=500, d1max=500, d2min=500, d2max=500;
+
+ function changeText () {
+roads();
+//generat();
+ Area=Math.floor((Math.random()*135)+1);
+
+if (f[d1][d2]==roads3) {num=201;}
+else if (f[d1][d2]==roads1) {num=202;}
+else if (f[d1][d2]==roads2) {num=203;}
+else if (f[d1][d2]==btl1) {num=200;}
+else if (f[d1][d2]==city) {num=0;}
+else  if (f[d1][d2]==forest1) {num=1;}
+else if (f[d1][d2]==mountains1) {num=50;}
+else if (f[d1][d2]==plains1){num=99;}
+else if (f[d1][d2]==hills1) {num=120}
+else if (f[d1][d2]==shops1) {num=133;}
+else {num=Area;};
+
+ if (num==201) {f[d1][d2]=roads3;}
+else if (num==202) {f[d1][d2]=roads1;}
+else if (num==203) {f[d1][d2]=roads2;}
+else if (num==200) {f[d1][d2]=btl1;}
+else if (num==0) {f[d1][d2]=city;}
+else if (num<=33){f[d1][d2]=forest1;}
+else if (num>33&&num<=66) {f[d1][d2]=mountains1;}
+else if (num<=100&&num>66){f[d1][d2]=plains1;}
+else if (num>=101&&num<=132) {f[d1][d2]=hills1}
+else if (num>=133||num<=135) {[d1][d2]=shops1;};
+
+if (d1<d1min) {d1min=d1min; setCookie("d1min", d1min, 30);};
+if (d1>d1max) {d1max=d1; setCookie("d1max", d1max, 30);};
+if (d2<d2min) {d2min=d2; setCookie("d2min", d2min, 30);};
+if(d2>d2max) {d2max=d2; setCookie("d2max", d2max, 30);};
+ 
+if (d1<=1||d1>=999||d2<=1||d2>=999) {f[d1][d2]="Edge of map";};
+if (d1==0) {++d1;};
+if (d2==0) {++d2;};
+if (d1==1000) {--d1;};
+if (d2==1000) {--d2;};
+
+if (exp>=explvl) {exp=exp-explvl; explvl=explvl*Math.floor(1.75); hpmax=hpmax+10; ++lvl; };
+  mng=Math.floor((Math.random()*15)-13);
+if (f[d1][d2]==(city||roads1||roads2||roads3)) {mng==0;};
+
+if (btd1>d1&&btd2>d2) {topo="northeast";}
+else if (btd1>d1&&btd2==d2) {topo="north";}
+else if (btd1>d1&&btd2<d2) {topo="northwest";}
+else if (btd1==d1&&btd2>d2) {topo="east";}
+else if (btd1<d1&&btd2<d2) {topo="southwest";}
+else if (btd1<d1&&btd2==d2) {topo="south";}
+else if (btd1<d1&&btd2>d2) {topo="southeast";}
+else if (btd1==d1&&btd2<d2) {topo="west";};
+if (hpns>0) {hbtn=heal;}
+else {hbtn="";};
+if (hp>hpmax) {hp=hpmax;};
+ if (mng!=1) { text = f[d1][d2]+"<p>You can see a tower to the "+topo+"</p> <p>You have "+hp+"/"+hpmax+" health and "+hpns+" healthpotions,<p/>"+hbtn+"</p><p/>"+move+"<p/>"+d1+", "+d2+",<p/>"+button1+"characters();'>Character"+button2;};
+// Monster generation
+if (mng==1) {mnh=Math.floor((Math.random()*7)-2);}
+else {mnh="";};
+
+if (mng==1&&mnh<1) {mn=mn1; mnhp2=5; mnhp3=3; mndmg2=3; mndmg3=1; mnhc=50; exp=exp+27;}
+else if (mng==1&&(mnh==2||mnh==1)) {mn=mn3; mnhp2=6; mnhp3=5; mndmg2=3; mndmg3=3; mnhc=66; exp=exp+42}
+else if (mng==1&&mnh==3) {mn=mn4; mnhp2=6; mnhp3=9; mndmg2=5; mndmg3=3; mnhc=95; exp=exp+63;}
+else if (mng==1&&mnh==4) {mn=mn2; mnhp2=15; mnhp3=15; mndmg2=5; mndmg3=7; mnhc=25; exp=exp+89;};
+
+
+if (mng==1) {mnhp=Math.floor((Math.random()*mnhp2)+mnhp3); text=f[d1][d2]+"<p/>"+at1+mn+" with "+mnhp+" health, <p/> You have "+hp+" health, <p/>"+attack;};
+if (hp<=0){text="You are dead";};
+
+ if (action==1) {action=0;};
+
+document . getElementById ( 'screen' ). innerHTML = text ; 
+setCookie("f"+d1+d2, f[d1][d2], 30);
+}
+; 
+function battle(){
+document . getElementById ( 'hit' ). play(); 
+var mnhch=Math.floor((Math.random()*100)+1);
+var yhch=Math.floor((Math.random()*100)+1);
+if (mnhch<=mnhc) {mndmg=Math.floor((Math.random()*mndmg2)+mndmg3); hp=hp-mndmg; mna="The "+mn+" attacks for "+mndmg+" damage,";}
+else if (mnhch>mnhc) {mna="The "+mn+" attacks but misses"};
+ yhp="You have "+hp+" health,";
+if (yhch<=yhc) {dmg=Math.floor((Math.random()*dmg2)+dmg3); mnhp=mnhp-dmg; ya="You attack the "+mn+" for "+dmg+" damage";}
+
+else if (yhch>yhc) {ya="You attack the "+mn+" but miss</p>";};
+  mnhpt="The "+mn+" has "+mnhp+" health</p>";
+
+fight=f[d1][d2]+mna+ya+mnhpt+yhp+attack;
+if (mnhp<=0) {fight=f[d1][d2]+"</p>You have killed the "+mn+"</p>You gain 1 healthpotion and 10 gold</p>You can see a tower to the"+topo+"</p>You have "+hp+" health and "+(hpns+1)+" healthpotions</p>"+heal+move; hpns=hpns+1; gold=gold+10;}
+if (hp<=0) {fight="You are dead";};
+
+document . getElementById ( 'screen' ). innerHTML = fight; 
+}
+
+ function inshops(){
+if (f[d1][d2]==shops1) {text2=inshops1;};
+document . getElementById ( 'screen' ). innerHTML = text2 ; };
+function buyshops(){if (f[d1][d2]==shops1) {text3 =backshops+"<p/>You have "+gold+" gold,<p/>A number of weapons hang from the walls each with a sign above it stating its price."+buysword1;}
+document . getElementById ( 'screen' ). innerHTML = text3 ; 
+};
+function characters(){chartext=button1+"changeText();'>Back"+button2+"<p/>You have "+hp+" health,<p/>"+hpns+"healthpotions<p/>and "+gold+" gold, \
+\ You are on level "+lvl+",<p/>You have "+exp+" expierience and need "+explvl+" to raise your level.<p/>Weapons:<p/>";
+if (dagger1>0) {chartext=chartext+dagger1+dagger+"<p/>";}
+if (shortsword1>0) {chartext=chartext+shortsword1+" "+shortsword+"<p/>";}
+else {chartext=chartext+"fists<p/>";};
+
+document . getElementById ( 'screen' ). innerHTML =chartext ; 
+}; 
+</script>
+
+<p id= "sun" ></p>
+<p id = "screen" ><input type = "button" value = "Start a new game" onclick = "setInterval(tick, 1000); changeText(); document.cookie='';"/>    <input type = "button" value = "continue with previous game" onclick = ' checkCookie();  changeText(); window.alert("loaded"); setInterval(tick, 1000);'/>
+<button onclick= ' document . getElementById ("screen" ). innerHTML =document.cookie; '>View saved information</button>
+
+</p>
+<p id="timep"></p>
+<p>
+<audio id="hit" src="http://soundbible.com/mp3/Swords_Collide-Sound_Explorer-2015600826.mp3"></audio>
+</p>
+ </body> </html> 
