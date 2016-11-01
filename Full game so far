@@ -58,8 +58,11 @@ if (btl==2&&btr==2) { document . getElementById ( 'screen' ). innerHTML =btl2r2 
 var city="You stand in a small city";
 var forest1='You stand in a forest<img src="http://www.bigfoto.com/themes/nature/forest/green-trees.jpg" height="100" width="100"><p/>';
 var mountains1="You stand on a mountain<p/>";
+var mountains2="You stand high upon a cliff, the wind is strong up here";
 var plains1='You stand on a field of green grass<img src="https://static.pexels.com/photos/128637/pexels-photo-128637.jpeg" alt="green grass" height="40" width="100"><p/>';
+var plains2="You stand on a strech of barren dirt, nothing grows here";
 var hills1 ="You stand on a small hill";
+var hills2="You stand on a low plateau, the sides slope gentally away in all directions";
 var shops1="You stand before a well set up blacksmith's workshop,"+enter;
 
 //inside shops
@@ -267,12 +270,15 @@ var d1min=500, d1max=500, d2min=500, d2max=500;
  function changeText () {
 roads();
 //generat();
- Area=Math.floor((Math.random()*135)+1);
+ Area=Math.floor((Math.random()*240)+1);
 
-if (f[d1][d2]==roads3) {num=201;}
-else if (f[d1][d2]==roads1) {num=202;}
-else if (f[d1][d2]==roads2) {num=203;}
-else if (f[d1][d2]==btl1) {num=200;}
+if (f[d1][d2]==plains2) {num=236}
+else if (f[d1][d2]==mountains2) {num=169}
+else if (f[d1][d2]==hills2) {num=205;}
+else if (f[d1][d2]==roads3) {num=2001;}
+else if (f[d1][d2]==roads1) {num=20002;}
+else if (f[d1][d2]==roads2) {num=20003;}
+else if (f[d1][d2]==btl1) {num=20000;}
 else if (f[d1][d2]==city) {num=0;}
 else  if (f[d1][d2]==forest1) {num=1;}
 else if (f[d1][d2]==mountains1) {num=50;}
@@ -281,16 +287,19 @@ else if (f[d1][d2]==hills1) {num=120}
 else if (f[d1][d2]==shops1) {num=133;}
 else {num=Area;};
 
- if (num==201) {f[d1][d2]=roads3;}
-else if (num==202) {f[d1][d2]=roads1;}
-else if (num==203) {f[d1][d2]=roads2;}
-else if (num==200) {f[d1][d2]=btl1;}
+if (num>=136&&num<=168) {f[d1][d2]=plains2;}
+else if (num>=169&&num<=204) {f[d1][d2]=mountains2}
+else if (num>=205&&num<=240) {f[d1][d2]=hills2;}
+else if (num==20001) {f[d1][d2]=roads3;}
+else if (num==20002) {f[d1][d2]=roads1;}
+else if (num==20003) {f[d1][d2]=roads2;}
+else if (num==20000) {f[d1][d2]=btl1;}
 else if (num==0) {f[d1][d2]=city;}
 else if (num<=33){f[d1][d2]=forest1;}
 else if (num>33&&num<=66) {f[d1][d2]=mountains1;}
 else if (num<=100&&num>66){f[d1][d2]=plains1;}
 else if (num>=101&&num<=132) {f[d1][d2]=hills1}
-else if (num>=133||num<=135) {[d1][d2]=shops1;};
+else if (num>=133&&num<=135) {[d1][d2]=shops1;};
 
 if (d1<d1min) {d1min=d1min; setCookie("d1min", d1min, 30);};
 if (d1>d1max) {d1max=d1; setCookie("d1max", d1max, 30);};
