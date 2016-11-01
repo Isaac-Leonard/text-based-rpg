@@ -20,7 +20,7 @@ d2map<d2edge;
   f[d1map][d2map]=0;
  }
 }
-var d1=500, d2=500, action=0, start=0, num=0, mnhp2=0, mnhp3=0, yhc=75, end=0, hpns=1, hpmax=30, mng=0, dmg2=4, dmg3=2, mndmg2=0, mndmg3=0, exp=0, mn=0, mnh=0, nu, gold=0, explvl=125, lvl=1;
+var d1=500, d2=500, action=0, start=0, num=0, mnhp2=0, mnhp3=0, yhc=75, end=0, hpns=1, hpmax=30, spells=0, mng=0, dmg2=4, dmg3=2, mndmg2=0, mndmg3=0, exp=0, mn=0, mnh=0, nu, gold=0, explvl=125, lvl=1;
 var shortsword1=0;
 var shortsword="shortsword,";
 var dagger1=1;
@@ -43,11 +43,15 @@ var buysword1=button1+"if (gold>=60) {++shortsword1; gold-=60; alert( \"\ You bu
 var btl, btr=1;
 var btl1="You stand on the bottom level of the Arch Mage Merlin's tower.<p/>You can see a set of spiral stone stairs leading up to the next floor.<p/><input type='button' value='climb the stairs' onclick='btl=2; btr=1; tower();'/>";
 var btl2r1="You are standing on the second floor of the arch mage Merlin's tower.<p/>Shelves line the walls with strange skeletons upon them.<p/>A door leads east.<p/><input type='button' value='East' onclick='btr=2; tower();'/>";
+var btl2r2='You stand in a room with mirrors on every surface.<p/>The door you came in through is gone leaving a shimmering pain of glass in its place<p/>';
+btl2r2=btl2r2+'You are drawn towards the east mirror.<p/> <button onclick="alert( \'\ You feel as though you are being squeezed to a point before reappearing back in the bottem level of the tower \'\ ); changeText();">Go to the west mirror</button>';
+var btl2r2=btl2r2+'<button onclick=" if (spells==0){alert( \"\ You feel like you are being tested for cirtain knolage before being squeezed to a point and reappearing on the bottem level of the tower \"\ ); changeText();};">Go to eastt mirror</button>';
 var btd1=Math.floor((Math.random()*50)+476), btd2=Math.floor((Math.random()*50)+476);
 f[btd1][btd2]=btl1;
 
 function tower(){
 if (btl==2&&btr==1) { document . getElementById ( 'screen' ). innerHTML = btl2r1;  };
+if (btl==2&&btr==2) { document . getElementById ( 'screen' ). innerHTML =btl2r2 ;  };
 };
 
 // Places
