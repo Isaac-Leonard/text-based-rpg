@@ -341,6 +341,7 @@ var yhch=Math.floor((Math.random()*100)+1);
 if (mnhch<=mnhc) {mndmg=Math.floor((Math.random()*mndmg2)+mndmg3); hp=hp-mndmg; mna="The "+mn+" attacks for "+mndmg+" damage,";}
 else if (mnhch>mnhc) {mna="The "+mn+" attacks but misses"};
  yhp="You have "+hp+" health,";
+if (shortsword1==1) {dmg2=7;};
 if (yhch<=yhc) {dmg=Math.floor((Math.random()*dmg2)+dmg3); mnhp=mnhp-dmg; ya="You attack the "+mn+" for "+dmg+" damage";}
 
 else if (yhch>yhc) {ya="You attack the "+mn+" but miss</p>";};
