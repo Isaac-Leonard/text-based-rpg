@@ -45,7 +45,7 @@ var btl1="You stand on the bottom level of the Arch Mage Merlin's tower.<p/>You 
 var btl2r1="You are standing on the second floor of the arch mage Merlin's tower.<p/>Shelves line the walls with strange skeletons upon them.<p/>A door leads east.<p/><input type='button' value='East' onclick='btr=2; tower();'/>";
 var btl2r2='You stand in a room with mirrors on every surface.<p/>The door you came in through is gone leaving a shimmering pain of glass in its place<p/>';
 btl2r2=btl2r2+'You are drawn towards the east mirror.<p/> <button onclick="alert( \'\ You feel as though you are being squeezed to a point before reappearing back in the bottem level of the tower \'\ ); changeText();">Go to the west mirror</button>';
-var btl2r2=btl2r2+'<button onclick=" if (spells==0){alert( \"\ You feel like you are being tested for cirtain knolage before being squeezed to a point and reappearing on the bottem level of the tower \"\ ); changeText();};">Go to eastt mirror</button>';
+var btl2r2=btl2r2+'<button onclick=" if (spells==0){alert( \'\ You feel like you are being tested for cirtain knolage before being squeezed to a point and reappearing on the bottem level of the tower \'\ ); changeText();};">Go to the eastt mirror</button>';
 var btd1=Math.floor((Math.random()*50)+476), btd2=Math.floor((Math.random()*50)+476);
 f[btd1][btd2]=btl1;
 
@@ -67,7 +67,9 @@ var shops1="You stand before a well set up blacksmith's workshop,"+enter;
 
 //inside shops
 
-var inshops1='You stand in a small but well used smithy.<p/>The owner, a short, thick armed dwarf with a white bierd, pauses her work to introduce herself as "Handrerlig Graybraid" and to ask about what she may do to help you.<p/><button type="button" onclick ="/*trainsmith();*/">Ask to be trained in the ways of metal,</button><p/><button type="button" onclick="/*forge();*/">work in shop</button><p/><button type ="button" onclick="buyshops();">Buy items</button><p/><button type="button" onclick="changeText();">Leave workshop</button><p/>';
+var inshops1='You stand in a small but well used smithy.<p/>The owner, a short, thick armed dwarf with a white bierd, pauses their work to introduce themself as "Handrerlig Graybraid" \
+\  and to ask about what they may do to help you.<p/><button onclick ="/*trainsmith*/ alert( \'\ To be implimented soon \'\ );">Ask to be trained in the ways of metal,</button> \
+\ <p/><button onclick="/*forge*/ alert( \'\ To be implimented later \'\ );">work in shop</button><p/><button onclick="buyshops();">Buy items</button><p/><button onclick="changeText();">Leave workshop</button><p/>';
 // roads
 var roads1="You stand on a road leading east and west";
 var roads2="You stand on a road leading north and south";
@@ -323,7 +325,8 @@ else if (btd1==d1&&btd2>d2) {topo="east";}
 else if (btd1<d1&&btd2<d2) {topo="southwest";}
 else if (btd1<d1&&btd2==d2) {topo="south";}
 else if (btd1<d1&&btd2>d2) {topo="southeast";}
-else if (btd1==d1&&btd2<d2) {topo="west";};
+else if (btd1==d1&&btd2<d2) {topo="west";}
+else if (btd1==d1&&btd2==d2) {topo="";};
 if (hpns>0) {hbtn=heal;}
 else {hbtn="";};
 if (hp>hpmax) {hp=hpmax;};
@@ -361,7 +364,8 @@ else if (yhch>yhc) {ya="You attack the "+mn+" but miss</p>";};
   mnhpt="The "+mn+" has "+mnhp+" health</p>";
 
 fight=f[d1][d2]+mna+ya+mnhpt+yhp+attack;
-if (mnhp<=0) {fight=f[d1][d2]+"</p>You have killed the "+mn+"</p>You gain 1 healthpotion and 10 gold</p>You can see a tower to the"+topo+"</p>You have "+hp+" health and "+(hpns+1)+" healthpotions</p>"+heal+move; hpns=hpns+1; gold=gold+10;}
+if (mnhp<=0) {fight=f[d1][d2]+"</p>You have killed the "+mn+"</p>You gain 1 healthpotion and 10 gold</p>You can see a tower to the "+topo+"</p>You have "+hp+" health and "+(hpns+1)+" healthpotions</p>"+heal+move+"<p/>"+d1+", "+d2+"<p/> "+"<button onclick='characters();'>Character</button>"; 
+hpns=hpns+1; gold=gold+10;}
 if (hp<=0) {fight="You are dead";};
 
 document . getElementById ( 'screen' ). innerHTML = fight; 
