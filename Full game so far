@@ -6,6 +6,7 @@
 </head>
 <body>  
 <script type = "text/javascript" >
+//"use strict";
 var hp=30;
  var d1edge=1001, d2edge=1001;
 var f = new Array();
@@ -20,24 +21,51 @@ d2map<d2edge;
   f[d1map][d2map]=0;
  }
 }
-var d1=500, d2=500, action=0, start=0, num=0, mnhp2=0, mnhp3=0, yhc=75, end=0, hpns=1, hpmax=30, spells=0, mng=0, dmg2=4, dmg3=2, mndmg2=0, mndmg3=0, exp=0, mn=0, mnh=0, nu, gold=0, explvl=125, lvl=1;
-var shortsword1=0;
-var shortsword="shortsword,";
-var dagger1=1;
-var dagger="dagger";
-var button1="<button type='button' onclick='";
+var d1=500, d2=500, action=0, start=0, num=0, mnhp2=0, mnhp3=0, yhc=75, end=0, hpns=1, hpmax=30, spells=0, mng=0, mndmg2=0, mndmg3=0, exp=0, mn=0, mnh=0, nu="", gold=800, explvl=125, lvl=1;
+var kmn1=0, kmn2=0, kmn3=0, kmn4=0;
+function Weapon(name, dmg1, dmg2, price, cth, amount){
+this.name=name;
+this.dmg1=dmg1;
+this.dmg2=dmg2;
+this.price=price;
+this.dmg=function(){return Math.floor((Math.random()*this.dmg1)+this.dmg2);}
+this.cth=cth;
+this.hit=function(){ var hit=Math.floor((Math.random()*100)+1);
+if (hit<=this.ctc) {return true;}
+else {return false;};
+};
+this.amount=amount;
+this.buy=function(){
+//alert("working");
+if (gold>=this.price) {gold=gold-this.price; this.amount+=1; alert("You buy one "+this.name);}
+else if (gold<this.price) {alert("You do not have enough gold");};
+buyshops();
+};
+this.buybutton='<button onclick="'+this.name+".buy()"+'">'+this.name+": "+this.price+" gold, 1d"+this.dmg1+"+"+(this.dmg2-1)+" dmg,"+'</button>';
+this.equipfunc=function(){
+equipped=this.name;
+};
+this.equip='<button onclick=" /*alert( \'\ working \'\ );*/ '+this.name+'.equipfunc(); characters();">equip?</button>';
+};
+var shortsword=new Weapon("shortsword", 5, 3, 60, 75, 0);
+var dagger=new Weapon("dagger", 4, 1, 20, 60, 1);
+equipped=dagger.name;
+var mace=new Weapon("mace", 4, 6, 120, 50, 0);
+var longsword=new Weapon("longsword", 9, 4, 250, 80, 0);
+var spear=new Weapon("spear",7,4,180,65,0);
+
+var button1="<button onclick='";
 var button2="</button>";
-var heal="<input type ='button' value ='Drink a potion' onclick='hp=hp+10, --hpns, changeText();'/>";
+var heal="<button onclick='hp=hp+10, --hpns, changeText();'>Drink a potion</button>";
 // general movement
-var north='<input type = "button" value = "North" id = "b1" onclick = " ++d1, changeText (); " /><p/>';
-var east='<input type = "button" value = "East" id = "b2" onclick = " ++d2, changeText (); " /><p/>';
-var west='<input type = "button" value ="West" id = "b4" onclick = " --d2, changeText (); " /><p/>';
-var south='<input type = "button" value = "South" id = "b3" onclick = " --d1, changeText (); " /><p/>';
+var north='<input type = "button" value = "North" onclick = " ++d1, changeText (); " /><p/>';
+var east='<input type = "button" value = "East"  onclick = " ++d2, changeText (); " /><p/>';
+var west='<input type = "button" value ="West" onclick = " --d2, changeText (); " /><p/>';
+var south='<input type = "button" value = "South" onclick = " --d1, changeText (); " /><p/>';
 var move=north+east+south+west;
 var attack='<p/><button type = "button" class = "button" onclick = " battle();"/>Attack</button>';
 var enter='<p/><button type="button" onclick="inshops();">Enter shop,'+button2;
 var backshops='<p/><button type="button" onclick="inshops();">Back</button>';
-var buysword1=button1+"if (gold>=60) {++shortsword1; gold-=60; alert( \"\ You buy one shortsword \"\ )} else {alert( \"\ You do not have enough gold \"\ )};'>shortsword: 60 gold, up to 7 damage"+button2;
 
 // boss tower
 var btl, btr=1;
@@ -182,7 +210,9 @@ function roads(){
 
 d1=500;
 d2=500;
-f[501][500]=shops1;
+f[503][501]=shops1;
+var vilsq="You stand in the niddle of the vilage square.<p/>Streets lead of in all four directions.";
+f[500][500]=vilsq;
 function tick(){
 timeplayed();
 gameTime();
@@ -193,7 +223,7 @@ setCookie("hpmax", hpmax, 30);
 setCookie("hpns", hpns, 30);
 setCookie("explvl", explvl, 30);
 };
-tim=79, tod2="";
+tim=39, tod2="", tod1="";
 function gameTime(){
 ++tim;
 if (tim>180) {tim=0;};
@@ -229,7 +259,7 @@ function getCookie(cname) {
     }
     return "";
 }
-var d1min=500, d1max=500, d2mon=500, d2nax=500;
+var d1min=500, d1max=500, d2min=500, d2nax=500;
 function checkCookie() {
     hp=getCookie("hp");
 exp=getCookie("exp");
@@ -272,7 +302,7 @@ var d1min=500, d1max=500, d2min=500, d2max=500;
  function changeText () {
 roads();
 //generat();
- Area=Math.floor((Math.random()*240)+1);
+ var Area=Math.floor((Math.random()*240)+1);
 
 if (f[d1][d2]==plains2) {num=236}
 else if (f[d1][d2]==mountains2) {num=169}
@@ -287,7 +317,7 @@ else if (f[d1][d2]==mountains1) {num=50;}
 else if (f[d1][d2]==plains1){num=99;}
 else if (f[d1][d2]==hills1) {num=120}
 else if (f[d1][d2]==shops1) {num=133;}
-else {num=Area;};
+else if (f[d1][d2]==0) {num=Area;};
 
 if (num>=136&&num<=168) {f[d1][d2]=plains2;}
 else if (num>=169&&num<=204) {f[d1][d2]=mountains2}
@@ -314,8 +344,9 @@ if (d2==0) {++d2;};
 if (d1==1000) {--d1;};
 if (d2==1000) {--d2;};
 
-if (exp>=explvl) {exp=exp-explvl; explvl=Math.floor(explvl*1.75); hpmax=number(explvl)+10; ++lvl; alert("You have gained a level")};
-  mng=Math.floor((Math.random()*15)-13);
+if (exp>=explvl) {exp=exp-explvl; explvl=Math.floor(explvl*1.75); hpmax=(hpmax+10); lvl=lvl+1; alert("You have gained a level")};
+  var mng=Math.floor((Math.random()*15)-13);
+//mng=1;
 if (f[d1][d2]==(city||roads1||roads2||roads3)) {mng==0;};
 
 if (btd1>d1&&btd2>d2) {topo="northeast";}
@@ -327,11 +358,14 @@ else if (btd1<d1&&btd2==d2) {topo="south";}
 else if (btd1<d1&&btd2>d2) {topo="southeast";}
 else if (btd1==d1&&btd2<d2) {topo="west";}
 else if (btd1==d1&&btd2==d2) {topo="";};
+
 if (hpns>0) {hbtn=heal;}
 else {hbtn="";};
 if (hp>hpmax) {hp=hpmax;};
- if (mng!=1) { text = f[d1][d2]+"<p>You can see a tower to the "+topo+"</p> <p>You have "+hp+"/"+hpmax+" health and "+hpns+" healthpotions,<p/>"+hbtn+"</p><p/>"+move+"<p/>"+d1+", "+d2+",<p/>"+button1+"characters();'>Character"+button2;};
+ 
+if (mng!=1) { text = f[d1][d2]+"<p>You can see a tower to the "+topo+"</p> <p>You have "+hp+"/"+hpmax+" health and "+hpns+" healthpotions,<p/>"+hbtn+"</p><p/>"+move+"<p/>"+d1+", "+d2+",<p/>"+button1+"characters();'>Character"+button2;};
 // Monster generation
+var mnh;
 if (mng==1) {mnh=Math.floor((Math.random()*7)-2);}
 else {mnh="";};
 
@@ -357,31 +391,39 @@ var yhch=Math.floor((Math.random()*100)+1);
 if (mnhch<=mnhc) {mndmg=Math.floor((Math.random()*mndmg2)+mndmg3); hp=hp-mndmg; mna="The "+mn+" attacks for "+mndmg+" damage,";}
 else if (mnhch>mnhc) {mna="The "+mn+" attacks but misses"};
  yhp="You have "+hp+" health,";
-if (shortsword1==1) {dmg2=7;};
-if (yhch<=yhc) {dmg=Math.floor((Math.random()*dmg2)+dmg3); mnhp=mnhp-dmg; ya="You attack the "+mn+" for "+dmg+" damage";}
 
-else if (yhch>yhc) {ya="You attack the "+mn+" but miss</p>";};
+if (eval(equipped+".hit()")<=yhc) {eval("dmg="+equipped+".dmg()"); mnhp=mnhp-dmg; /*alert("working");*/ ya="You attack the "+mn+" for "+dmg+" damage";}
+
+else if (eval(equipped+".dmg()")>yhc) {ya="You attack the "+mn+" but miss</p>";};
   mnhpt="The "+mn+" has "+mnhp+" health</p>";
-
+//alert("working")
 fight=f[d1][d2]+mna+ya+mnhpt+yhp+attack;
 if (mnhp<=0) {fight=f[d1][d2]+"</p>You have killed the "+mn+"</p>You gain 1 healthpotion and 10 gold</p>You can see a tower to the "+topo+"</p>You have "+hp+" health and "+(hpns+1)+" healthpotions</p>"+heal+move+"<p/>"+d1+", "+d2+"<p/> "+"<button onclick='characters();'>Character</button>"; 
-hpns=hpns+1; gold=gold+10;}
+hpns=hpns+1; gold=gold+10;};
+if (mnhp<=0&&mn==mn1) {++kmn1;}
+else if (mnhp<=0&&mn==mn2) {++kmn2;}
+else if (mnhp<=0&&mn==mn3) {++kmn3;}
+else if (mnhp<=0&&mn==mn4) {++kmn4;};
 if (hp<=0) {fight="You are dead";};
 
 document . getElementById ( 'screen' ). innerHTML = fight; 
 }
 
  function inshops(){
-if (f[d1][d2]==shops1) {text2=inshops1;};
+if (f[d1][d2]==shops1&&(tim>=40&&tim<140)) {text2=inshops1;}
+else if (f[d1][d2]==shops1&&(tim<40||tim>=140)) {alert("The shop is closed for the night, please come back in the morning"); return 0;};
 document . getElementById ( 'screen' ). innerHTML = text2 ; };
-function buyshops(){if (f[d1][d2]==shops1) {text3 =backshops+"<p/>You have "+gold+" gold,<p/>A number of weapons hang from the walls each with a sign above it stating its price."+buysword1;}
+function buyshops(){
+if (f[d1][d2]==shops1) {text3 =backshops+"<p/>You have "+gold+" gold,<p/>A number of weapons hang from the walls each with a sign above it stating its price."+shortsword.buybutton+"<p/>"+dagger.buybutton+"<p/>"+mace.buybutton+"<p/>"+spear.buybutton+"<p/>"+longsword.buybutton+"<p/>";}
 document . getElementById ( 'screen' ). innerHTML = text3 ; 
 };
 function characters(){chartext=button1+"changeText();'>Back"+button2+"<p/>You have "+hp+" health,<p/>"+hpns+"healthpotions<p/>and "+gold+" gold, \
-\ You are on level "+lvl+",<p/>You have "+exp+" expierience and need "+explvl+" to raise your level.<p/>Weapons:<p/>";
-if (dagger1>0) {chartext=chartext+dagger1+dagger+"<p/>";}
-if (shortsword1>0) {chartext=chartext+shortsword1+" "+shortsword+"<p/>";}
-else {chartext=chartext+"fists<p/>";};
+\ You are on level "+lvl+",<p/>You have "+exp+" expierience and need "+explvl+" to raise your level.<p/>Weapons:<p/> The "+equipped+" is equipped<p/>";
+if (dagger.amount>0) {chartext=chartext+dagger.amount+dagger.name+dagger.equip+"<p/>";}
+if (shortsword.amount>0) {chartext=chartext+shortsword.amount+" "+shortsword.name+shortsword.equip+"<p/>";}
+if (mace.amount>0) {chartext=chartext+mace.amount+" "+mace.name+mace.equip+"<p/>";};
+if (spear.amount>0) {chartext=chartext+spear.amount+" "+spear.name+spear.equip+"<p/>";}
+if (longsword.amount>0) {chartext=chartext+longsword.amount+" "+longsword.name+longsword.equip+"<p/>";}
 
 document . getElementById ( 'screen' ). innerHTML =chartext ; 
 }; 
