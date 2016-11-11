@@ -7,6 +7,8 @@
 <body>  
 <script type = "text/javascript" >
 //"use strict";
+alert("This game uses cookies. Cookies are bits of text that record information about your use of a website that are stored on your device and can be collected by the website that made them. If you dont like this you can turn off cookies in settings. To view the cookies made by this game click 'viwew saved information'.");
+
 var hp=30;
  var d1edge=1001, d2edge=1001;
 var f = new Array();
