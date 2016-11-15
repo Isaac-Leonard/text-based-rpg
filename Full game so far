@@ -83,7 +83,7 @@ this.gold=gold;
 this.m1=m1;
 this.m2=m2;
 this.battle=function(){
-if (eval(equipped+".hit()")==true) {eval("ydmg="+equipped+".dmg()"); this.hp-=ydmg; ya="You attack the "+this.name+" for "+ydmg+" damage"<p/>;}
+if (eval(equipped+".hit()")==true) {eval("ydmg="+equipped+".dmg()"); this.hp-=ydmg; ya="You attack the "+this.name+" for "+ydmg+" damage<p/>";}
 else {ya="You attack the "+this.name+" but miss<p/>";};
 if(this.hp<=0){ alert("You kill "+this.name+", You gain "+this.gold+" gold and "+this.exp+" experience" ); window.gold=window.gold+this.gold; window.exp=window.exp+this.exp; a[this.m1][this.m2]=0;};
 mna="", ymna="";
