@@ -91,7 +91,7 @@ for(mn1=0;mn1<5;mn1++){
 for(mn2=0;mn2<5;mn2++){
 hito=hit(mn1, mn2);
 if (a[mn1][mn2]!=0&&hito==true) {mndmg=mndmgf(mn1, mn2); mna=mna+a[mn1][mn2].name+" attacks for "+mndmg+" damage,<p/>"; hp=hp-mndmg;}
-else if (a[mn1][mn2]!=0&&hito==ffalse) {mna=mna+a[mn1][mn2].name+" attacks but misses<p/>";};
+else if (a[mn1][mn2]!=0&&hito==false) {mna=mna+a[mn1][mn2].name+" attacks but misses<p/>";};
 if (a[mn1][mn2]!=0) {ymna=ymna+a[mn1][mn2].name+": "+a[mn1][mn2].hp+"hp"+a[mn1][mn2].attackbtn+"<p/>";}}
 
 }
