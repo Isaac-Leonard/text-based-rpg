@@ -546,7 +546,7 @@ document . getElementById ( 'screen' ). innerHTML =chartext ;
 </script>
 
 <p id= "sun" ></p>
-<p id = "screen" ><input type = "button" value = "Start a new game" onclick = "setInterval(tick, 1000); changeText(); document.cookie='';"/>    <input type = "button" value = "continue with previous game" onclick = ' checkCookie();  changeText(); window.alert("loaded"); setInterval(tick, 1000);'/>
+<p id = "screen" role="status"><input type = "button" value = "Start a new game" onclick = "setInterval(tick, 1000); changeText(); document.cookie='';"/>    <input type = "button" value = "continue with previous game" onclick = ' checkCookie();  changeText(); window.alert("loaded"); setInterval(tick, 1000);'/>
 <button onclick= ' document . getElementById ("screen" ). innerHTML =document.cookie; '>View saved information</button>
 
 </p>
