@@ -55,6 +55,28 @@ var mace=new Weapon("mace", 4, 6, 120, 50, 0);
 var longsword=new Weapon("longsword", 9, 4, 250, 80, 0);
 var spear=new Weapon("spear",7,4,180,65,0);
 
+//runes
+function rune(name, amount){
+this.name=name;
+this.amount=amount;
+this.find=function(){alert("You gain a "+this.name);
+changeText();
+++this.amount;
+this.get="<button onclick='"+this.num+".find()'>Get</button><p/>";
+};
+};
+
+//scrolls
+function scroll(name, amount, information){
+this.name=name;
+this.amount=amount;
+this.information=information;
+this.read=function(){
+document . getElementById ( 'screen' ). innerHTML =back+"<p/>"+this.information ; 
+};
+
+};
+
 //enermies
 
 function mndmgf(mn1, mn2){
@@ -119,7 +141,7 @@ if (m1==0&&Math.floor(Math.random()*2)==0) {//alert("working2");
  //alert("working3");
 };
 if (typeof mn!="number"&&m1==1&&Math.floor(Math.random()*5)<2) {a[m1][m2]=new Enermy("untrained goblin",5,5,4,2,55,1,6,40,10,""); mn=m1;};
-if (typeof mn!="number"&&m1==2&&Math.floor(Math.random()*7)<3) {a[m1][m2]=new Enermy("enormous bug",7,6,5,3,50,2,7,65,15,"");};
+if (typeof mn!="number"&&m1==2&&Math.floor(Math.random()*7)<3) {a[m1][m2]=new Enermy("enormous bug",7,6,5,3,50,2,7,65,15,""); mn=m1;};
 if (typeof mn!="number"&&m1==3&&Math.floor(Math.random()*11)<5) {a[m1][m2]=new Enermy("low level imp",8,9,7,6,70,2,10,90,25,""); mn=m1;}
 if (typeof mn!="number"&&m1==4&&Math.floor(Math.random()*13)<7) {a[m1][m2]=new Enermy("dark elf priestess",15,20,15,10,80,4,15,150,50,""); mn=m1;}
 if (lvl>a[m1][m2].lvl2||lvl<a[m1][m2].lvl1) {a[m1][m2]=0; continue;};
@@ -302,7 +324,7 @@ var vilsq="You stand in the niddle of the vilage square.<p/>Streets lead of in a
 f[500][500]=vilsq;
 function tick(){
 if (hp<=0) {document . getElementById ( 'screen' ). innerHTML = "You are dead";  };
-if (fight==false&&(f[d1][d2]!=(shops1||roads1||roads2||roads3))&&Math.floor(Math.random()*30)==0) {battleStart(); };
+if (safe==false&&fight==false&&(f[d1][d2]!=(shops1||roads1||roads2||roads3))&&Math.floor(Math.random()*30)==0) {battleStart(); };
 timeplayed();
 gameTime();
 setCookie("hp", hp, 30);
@@ -390,6 +412,7 @@ document . getElementById ( 'timep' ). innerHTML ="Time played: "+countm+" minut
 var d1min=500, d1max=500, d2min=500, d2max=500;
 
  function changeText () {
+safe=false;
 roads();
 //generat();
  var Area=Math.floor((Math.random()*240)+1);
@@ -508,7 +531,9 @@ function buyshops(){
 if (f[d1][d2]==shops1) {text3 =backshops+"<p/>You have "+gold+" gold,<p/>A number of weapons hang from the walls each with a sign above it stating its price."+shortsword.buybutton+"<p/>"+dagger.buybutton+"<p/>"+mace.buybutton+"<p/>"+spear.buybutton+"<p/>"+longsword.buybutton+"<p/>";}
 document . getElementById ( 'screen' ). innerHTML = text3 ; 
 };
-function characters(){chartext=button1+"changeText();'>Back"+button2+"<p/>You have "+hp+" health,<p/>"+hpns+"healthpotions<p/>and "+gold+" gold, \
+function characters(){safe=true;
+
+chartext=button1+"changeText();'>Back"+button2+"<p/>You have "+hp+" health,<p/>"+hpns+"healthpotions<p/>and "+gold+" gold, \
 \ You are on level "+lvl+",<p/>You have "+exp+" expierience and need "+explvl+" to raise your level.<p/>Weapons:<p/> The "+equipped+" is equipped<p/>";
 if (dagger.amount>0) {chartext=chartext+dagger.amount+dagger.name+dagger.equip+"<p/>";}
 if (shortsword.amount>0) {chartext=chartext+shortsword.amount+" "+shortsword.name+shortsword.equip+"<p/>";}
